@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Google OAuth Test</title>
+    <meta name="google-signin-client_id" content="394816853911-o3d2lcpate3bel3lbso9d18sjopamcat.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px;">
+    <h1>Minimal Google Sign-In Test</h1>
+    
+    <div style="background: #f0f8ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Make sure you're added as a test user in Google Cloud Console</li>
+            <li>Replace the client ID below with your new one if you created a fresh OAuth client</li>
+            <li>Click the sign-in button</li>
+        </ol>
+    </div>
+
+    <!-- Google Sign-In Button (Legacy API - more reliable) -->
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    
+    <br><br>
+    
+    <!-- Manual token input for testing -->
+    <h3>Or paste a token manually:</h3>
+    <input type="text" id="manualToken" placeholder="Paste Google ID token here" style="width: 400px; padding: 8px;">
+    <button onclick="testManualToken()" style="padding: 8px 16px; margin-left: 10px;">Test Token</button>
+
+    <div id="result" style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; display: none;">
+        <h3>Result:</h3>
+        <pre id="resultText"></pre>
+    </div>
+
+    <script>
+        // Handle successful sign-in
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            const idToken = googleUser.getAuthResponse().id_token;
+            
+            console.log('ID Token: ' + idToken);
+            console.log('Name: ' + profile.getName());
+            console.log('Email: ' + profile.getEmail());
+            
+            // Show the token
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('resultText').textContent = 'ID Token: ' + idToken;
+            
+            // Test the backend
+            testBackend(idToken);
+        }
+
+        // Test with manually entered token
+        function testManualToken() {
+            const token = document.getElementById('manualToken').value;
+            if (!token) {
+                alert('Please paste a token first');
+                return;
+            }
+            testBackend(token);
+        }
+
+        // Test the backend API
+        async function testBackend(token) {
+            try {
+                console.log('Testing backend with token:', token.substring(0, 50) + '...');
+                
+                const response = await fetch('http://localhost:3000/api/auth/google', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        token: token
+                    })
+                });
+
+                const data = await response.json();
+                
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('resultText').textContent = 
+                    'Backend Response:\n' + JSON.stringify(data, null, 2);
+                    
+            } catch (error) {
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('resultText').textContent = 
+                    'Error: ' + error.message;
+            }
+        }
+
+        // Sign out function
+        function signOut() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+
+    <br><br>
+    <button onclick="signOut()" style="padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 4px;">
+        Sign Out
+    </button>
+
+    <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+        <h4>Troubleshooting Tips:</h4>
+        <ul>
+            <li>If you get "invalid_client", create a new OAuth client in Google Cloud Console</li>
+            <li>Make sure your email (jordan10nanyan@gmail.com) is added as a test user</li>
+            <li>Wait 5-10 minutes after making changes in Google Cloud Console</li>
+            <li>Try incognito/private browsing mode</li>
+            <li>Check browser console (F12) for detailed error messages</li>
+        </ul>
+    </div>
+</body>
+</html>
