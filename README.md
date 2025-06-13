@@ -3,6 +3,13 @@
 # MooLen
 Moolen adalah aplikasi berbasis wab yang mendeteksi suasana hati pengguna melalui analisis ekspresi wajah.
 
+github sebelumnya : https://github.com/sidiqqm/Moolen.git
+model : https://drive.google.com/drive/folders/1QvYi3HLzrsLjA1FAs8OyJVjMhB8gEzfS?usp=drive_link
+
+Langkah sebelum menggunakan : 
+1. Download model pada drive
+2. Masukkan folder model tersebut ke dalam folder API
+
 ## Fitur Fitur
 - 🎭 Face Mood Detection: membuat sistem yang dapat mendeteksi suasana hati berdasarkan ekspresi wajah. Deteksi dilakukan secara real-time melalui kamera perangkat dan secara otomatis dicatat ke dalam mood tracker.
 - ✅ Self Assessment: memberikan pengguna pertanyaan atau skala penilaian untuk mengumpulkan data tentang kondisi emosional mereka. Hasil dari pertanyaan ini akan diolah untuk memprediksi tingkat stres atau kecenderungan masalah psikologis ringan pada pengguna. Model prediksi ini tidak mencakup diagnosa klinis dan akan tetap menyarankan untuk melakukan pengecekan langsung ke psikolog.
