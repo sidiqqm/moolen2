@@ -9,7 +9,7 @@ model : https://drive.google.com/drive/folders/1QvYi3HLzrsLjA1FAs8OyJVjMhB8gEzfS
 
 Langkah sebelum menggunakan : 
 1. Download model pada drive
-2. Masukkan folder model tersebut ke dalam folder API dan masukkan file .env pada api
+2. Masukkan folder model tersebut ke dalam folder API dan masukkan file .env pada folder API
 
 ## Fitur Fitur
 - 🎭 Face Mood Detection: membuat sistem yang dapat mendeteksi suasana hati berdasarkan ekspresi wajah. Deteksi dilakukan secara real-time melalui kamera perangkat dan secara otomatis dicatat ke dalam mood tracker.
